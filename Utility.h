@@ -22,8 +22,6 @@ environment variable. */
 
 // clears screen
 extern void clr();
-clrscr(); // from my understanding this is a c console call that clears screen
-// alternatively: system("clear");
 
 // echo message back with a newline at the end
 extern void echo(char *msg[], int count);
