@@ -5,7 +5,7 @@
 #include <dirent.h> // ONLY WORKS ON POSIX SYS, use https://github.com/tronkko/dirent for Windows
 #include "Utility.h"
 
-int tokenize(char *input, char *tokens[BUFSIZE])
+int tokenize(char *input, char *tokens[BUFSIZE], FILE *source)
 {
 
     // Index var
@@ -20,21 +20,21 @@ int tokenize(char *input, char *tokens[BUFSIZE])
     }
 
     // Variable used for error checking
-    ret = fgets(input, 512, stdin);
-
-    // removes any new line characters for cleanliness
-    input[strcspn(input, "\n")] = 0;
+    ret = fgets(input, 512, source);
 
     // Checks for errors while reading std input
+
     if (ret == NULL)
     {
         if (errno != 0)
         {
             printf("error: %s\n", strerror(errno));
         }
-        return (0);
+        return (-1);
     }
 
+    // removes any new line characters for cleanliness
+    input[strcspn(input, "\n")] = 0;
     // Splits first word from input and stores in p
     char *p = strtok(input, " ");
 

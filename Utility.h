@@ -8,8 +8,9 @@
 
 extern char buffer[];
 extern char *tokens[];
+extern FILE *commandSource;
 // responsible for tokenizing string input to understand it
-extern int tokenize(char *input, char *tokens[BUFSIZE]);
+extern int tokenize(char *input, char *tokens[BUFSIZE], FILE *source);
 
 // changes the directory
 extern void changeDir(char *pwd, char *newDirPath);

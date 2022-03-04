@@ -11,6 +11,11 @@
 char buffer[BUFSIZE] = {0};
 char *tokens[BUFSIZE];
 char command[BUFSIZE];
+FILE *commandSource;
+
+char environmentVariables[2][BUFSIZE] = {0};
+char currentDirectory[BUFSIZE] = {0};
+char originDirectory[BUFSIZE] = {0};
 
 /**Tokenizer function with a global buffer pointer
  * and a global tokens pointer array
@@ -63,13 +68,43 @@ int tokenize(char *input, char *tokens[BUFSIZE])
 
 int main(int argc, char *argv[])
 {
+    getCurrentDir(currentDirectory, BUFSIZE);
+    getCurrentDir(originDirectory, BUFSIZE);
+    strcpy(environmentVariables[0], "Current Directory: ");
+    strcpy(environmentVariables[1], "Origin: ");
+    strcat(environmentVariables[0], currentDirectory);
+    strcat(environmentVariables[1], originDirectory);
+
+    printf("Welcome to the Shell\n");
+    FILE *commandSource = NULL;
+    // Parse the commands provided using argc and argv
+    if (argc > 1)
+    {
+        commandSource = fopen(argv[1], "r");
+        printf("Wellcome to the Shell again\n");
+        if (commandSource == NULL)
+        {
+            printf("Error opening batch file...\n");
+            return EXIT_FAILURE;
+        }
+    }
+    else
+    {
+        commandSource = stdin;
+    };
 
     do
     {
-        printf("Type words here:> ");
-
+        if (commandSource == stdin)
+        {
+            printf("%s> ", currentDirectory);
+        }
         // Number of words in the token pointer array
-        int S_count = tokenize(buffer, tokens);
+        int S_count = tokenize(buffer, tokens, commandSource);
+        if (S_count == -1)
+        {
+            quit();
+        }
         // for testing the tokenizing/input
         /*
         // printf("buffer: %s\n", buffer);
@@ -88,14 +123,24 @@ int main(int argc, char *argv[])
 
         if (strcmp(command, "echo") == 0)
         {
-            printf("echoing: ");
 
             echo(tokens, S_count); // MIGHT MAKE MORE SENSE TO KEEP THIS LOCAL BUT WHO KNOWS
+            printf("\n");
         }
-        else if (strcmp(command, "clear") == 0)
+        else if (strcmp(command, "clr") == 0)
         {
             // printf("clearing:");
             clr();
+        }
+        else if (strcmp(command, "quit") == 0)
+        {
+            // printf("clearing:");
+            quit();
+        }
+        else if (strcmp(command, "more") == 0)
+        {
+            // printf("clearing:");
+            help();
         }
         else
         {
