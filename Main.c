@@ -119,19 +119,29 @@ int main(int argc, char *argv[])
         // removes any newline characters from the first token, so single command lines have no trailing newline
         command[strcspn(command, "\n")] = 0;
 
-        // printf("deciding what %s means\n", tokens[0]);
+        // printf("deciding what %s means\n", command);
 
-        if (strcmp(command, "echo") == 0)
+        if (strcmp(command, "cd") == 0)
         {
-
-            echo(tokens, S_count); // MIGHT MAKE MORE SENSE TO KEEP THIS LOCAL BUT WHO KNOWS
-            printf("\n");
+            printf("k");
+            changeDir(currentDirectory, tokens[1]);
         }
         else if (strcmp(command, "clr") == 0)
         {
             // printf("clearing:");
             clr();
         }
+        else if (strcmp(command, "dir") == 0)
+        {
+            // printf("clearing:");
+            displayDir(currentDirectory);
+        }
+        else if (strcmp(command, "echo") == 0)
+        {
+            echo(tokens, S_count); // MIGHT MAKE MORE SENSE TO KEEP THIS LOCAL BUT WHO KNOWS
+            printf("\n");
+        }
+
         else if (strcmp(command, "quit") == 0)
         {
             // printf("clearing:");
@@ -145,7 +155,7 @@ int main(int argc, char *argv[])
         else
         {
             printf("%s is not a command, type help to see list of commands\n", command);
-        }
+        };
 
     } while (1);
 }
