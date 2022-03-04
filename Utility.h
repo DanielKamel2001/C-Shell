@@ -7,7 +7,7 @@
 // Function headers
 
 // responsible for tokenizing string input to understand it
-extern int tokenizer(); // arguments to be adjusted in accordance with adris' function
+extern int tokenize(char *input, char *tokens[BUFSIZE]);
 
 // changes the directory
 extern void changeDir(char *pwd, char *newDirPath);
@@ -30,10 +30,10 @@ extern void help();
 // manually print all the commands available in our shell
 
 // displays the contents of the current directory
-extern void displayDir(char *pwd);
+extern void displayDir(char *path);
 
 // lists all then environment strings
-extern void displayEnv();
+extern void displayEnv(char env[][BUFSIZE]);
 
 // pauses the shell
 extern void pause();

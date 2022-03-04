@@ -13,7 +13,7 @@ char *tokens[BUFSIZE];
 
 /**Tokenizer function with a global buffer pointer
  * and a global tokens pointer array
- */
+ 
 int tokenize(char *input, char *tokens[BUFSIZE])
 {
 
@@ -58,6 +58,7 @@ int tokenize(char *input, char *tokens[BUFSIZE])
     // Used to Determine the number of splits (Called and used in main fucntion)
     return i;
 }
+*/
 
 int main(int argc, char *argv[])
 {
