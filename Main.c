@@ -70,8 +70,8 @@ int main(int argc, char *argv[])
 {
     getCurrentDir(currentDirectory, BUFSIZE);
     getCurrentDir(originDirectory, BUFSIZE);
-    strcpy(environmentVariables[0], "Current Directory: ");
-    strcpy(environmentVariables[1], "Origin: ");
+    // strcpy(environmentVariables[0], "Current Directory: ");
+    // strcpy(environmentVariables[1], "Origin: ");
     strcat(environmentVariables[0], currentDirectory);
     strcat(environmentVariables[1], originDirectory);
 
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
     {
         if (commandSource == stdin)
         {
-            printf("%s> ", currentDirectory);
+            printf("%s> ", environmentVariables[0]);
         }
         // Number of words in the token pointer array
         int S_count = tokenize(buffer, tokens, commandSource);
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
         if (strcmp(command, "cd") == 0)
         {
             printf("k");
-            changeDir(currentDirectory, tokens[1]);
+            changeDir(environmentVariables[0], tokens[1]);
         }
         else if (strcmp(command, "clr") == 0)
         {
@@ -134,9 +134,9 @@ int main(int argc, char *argv[])
         else if (strcmp(command, "dir") == 0)
         {
             // printf("clearing:");
-            displayDir(currentDirectory);
+            displayDir(environmentVariables[0]);
         }
-        else if (strcmp(command, "env") == 0)
+        else if (strcmp(command, "environ") == 0)
         {
             // printf("clearing:");
             displayEnv(environmentVariables);
@@ -146,16 +146,21 @@ int main(int argc, char *argv[])
             echo(tokens, S_count); // MIGHT MAKE MORE SENSE TO KEEP THIS LOCAL BUT WHO KNOWS
             printf("\n");
         }
+        else if (strcmp(command, "help") == 0)
+        {
+            // printf("clearing:");
+            help();
+        }
+        else if (strcmp(command, "pause") == 0)
+        {
+            // printf("clearing:");
+            pause();
+        }
 
         else if (strcmp(command, "quit") == 0)
         {
             // printf("clearing:");
             quit();
-        }
-        else if (strcmp(command, "help") == 0)
-        {
-            // printf("clearing:");
-            help();
         }
         else
         {

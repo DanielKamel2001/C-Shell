@@ -155,7 +155,7 @@ void displayDir(char *path)
 // lists all then environment strings
 void displayEnv(char env[][BUFSIZE])
 {
-    printf("%s\n%s\n", env[0], env[1]);
+    printf("Current Directory: %s\nOrigin Directory: %s\n", env[0], env[1]);
 }
 
 // pauses the shell
@@ -175,14 +175,14 @@ void pause()
 // quits the shell
 void quit()
 {
-    printf("Terminating the shell...");
+    printf("Terminating the shell...\n");
     exit(0);
 }
 
 // obtains the current working directory
 void getCurrentDir(char *pwd, int bufferSize)
 {
-    // return a null-terminated string containing an absolute pathname that is the current working directory of thecalling process.
+    // returns into pwd a null-terminated string containing an absolute pathname that is the current working directory of thecalling process.
     getcwd(pwd, bufferSize);
 }
 /*  Not really sure how to include this requirement, i think this might be able to include in getCurrentDir?
