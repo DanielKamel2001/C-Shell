@@ -15,6 +15,7 @@ char *tokens[BUFSIZE];
 char command[BUFSIZE];
 FILE *commandSource;
 char filePath[BUFSIZE];
+// char *arguments[BUFSIZE];
 
 char environmentVariables[2][BUFSIZE] = {0};
 char currentDirectory[BUFSIZE] = {0};
@@ -179,7 +180,10 @@ int main(int argc, char *argv[])
                 strcat(filePath, "/");
                 strcat(filePath, command);
                 printf("opening program at file path:%s\n", filePath);
-
+                // for (int i = 0; i < S_count; i++)
+                // {
+                //     arguments[i], tokens[i]
+                // }
                 pid_t childPID;
                 childPID = fork();
                 // fork successful
@@ -195,7 +199,7 @@ int main(int argc, char *argv[])
                     if (childPID == 0)
                     {
                         // printf("child about to execl\n");
-                        execl(filePath, tokens[1]);
+                        execl(filePath, tokens);
                         if (errno != 0)
                         {
                             printf("error: %s\n", strerror(errno));
