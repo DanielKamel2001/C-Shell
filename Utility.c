@@ -164,7 +164,7 @@ void pause()
     printf("The shell has been paused. Press ENTER to resume opertation");
     key = (char)getchar();
 
-    while (key != "\n")
+    while (key != '\n')
     {
         key = (char)getchar();
     }
