@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
             // printf("clearing:");
             quit();
         }
-        else if (strcmp(command, "more") == 0)
+        else if (strcmp(command, "help") == 0)
         {
             // printf("clearing:");
             help();

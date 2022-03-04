@@ -112,12 +112,12 @@ void help()
     printf("Commands available within this shell:\n");
     printf("cd <path>: \t\t changes the current working directory to the path specified in the argument.\n");
     printf("clr: \t\t\t clears the console/terminal window.\n");
-    printf("echo <message>: \t\t Displays comment on the command line followed by a newline.\n");
+    printf("echo <message>: \t Displays comment on the command line followed by a newline.\n");
     printf("help: \t\t\t dispays all available commands in the shell (you're here right now!)\n");
-    printf("dir <directory>: \t\t Lists the contents of directory <directory>\n");
-    printf("environ: \t\t\t Lists the environment strings.\n");
-    printf("pause: \t\t\t Pauses the shell until the 'Enter' key is pushed");
-    printf("quit: \t\t\t Exits the shell");
+    printf("dir <directory>: \t Lists the contents of directory <directory>\n");
+    printf("environ: \t\t Lists the environment strings.\n");
+    printf("pause: \t\t\t Pauses the shell until the 'Enter' key is pushed\n");
+    printf("quit: \t\t\t Exits the shell\n");
 }
 
 // displays the contents of the directory specified
