@@ -33,11 +33,14 @@ extern void help();
 // displays the contents of the current directory
 extern void displayDir(char *path);
 
+// returns 0 if the program was found
+extern int inDir(char *path, char *find);
+
 // lists all then environment strings
 extern void displayEnv(char env[][BUFSIZE]);
 
 // pauses the shell
-extern void pause();
+extern void shellPause();
 
 // quits the shell
 extern void quit();

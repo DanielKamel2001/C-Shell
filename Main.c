@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "Utility.h"
 // Global constants
@@ -12,6 +14,7 @@ char buffer[BUFSIZE] = {0};
 char *tokens[BUFSIZE];
 char command[BUFSIZE];
 FILE *commandSource;
+char filePath[BUFSIZE];
 
 char environmentVariables[2][BUFSIZE] = {0};
 char currentDirectory[BUFSIZE] = {0};
@@ -123,7 +126,6 @@ int main(int argc, char *argv[])
 
         if (strcmp(command, "cd") == 0)
         {
-            printf("k");
             changeDir(environmentVariables[0], tokens[1]);
         }
         else if (strcmp(command, "clr") == 0)
@@ -154,7 +156,7 @@ int main(int argc, char *argv[])
         else if (strcmp(command, "pause") == 0)
         {
             // printf("clearing:");
-            pause();
+            shellPause();
         }
 
         else if (strcmp(command, "quit") == 0)
@@ -164,7 +166,45 @@ int main(int argc, char *argv[])
         }
         else
         {
-            printf("%s is not a command, type help to see list of commands\n", command);
+            // printf("%s is not a command, type help to see list of commands\n", command);
+            if (inDir(environmentVariables[0], command) == -1)
+            {
+                printf("That is NOT a recognized command or program\n");
+            }
+            else
+            {
+                printf("That IS a recognized command or program\n");
+                pid_t childPID;
+                childPID = fork();
+                // fork successful
+                // printf("%d\n", childPID);
+                if (childPID >= 0)
+                {
+                    // child process
+                    if (childPID == 0)
+                    {
+                        // printf("child about to execl\n");
+                        strcat(filePath, environmentVariables[0]);
+                        strcat(filePath, "/");
+                        strcat(filePath, command);
+                        printf("opening program at file path:%s\n", filePath);
+                        execl(filePath, tokens[1]);
+                        if (errno != 0)
+                        {
+                            printf("error: %s\n", strerror(errno));
+                        }
+                    }
+                    else
+                    {
+                        // printf("Parent Waiting\n");
+                        waitpid(childPID, 0, 0);
+                    }
+                }
+                else
+                {
+                    puts("Fork failed");
+                }
+            }
         };
 
     } while (1);

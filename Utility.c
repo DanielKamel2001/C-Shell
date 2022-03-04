@@ -152,6 +152,41 @@ void displayDir(char *path)
     closedir(d);
 }
 
+// returns 0 if the specfied file is found in the directory
+
+int inDir(char *path, char *find)
+{
+    // structure studied from https://pubs.opengroup.org/onlinepubs/7908799/xsh/dirent.h.html
+    struct dirent *dir;
+    int found = -1;
+    DIR *d = NULL;
+    if (strcmp(path, "") == 0)
+    {
+        d = opendir(".");
+    }
+    else
+    {
+        d = opendir(path);
+    }
+
+    if (d)
+    {
+        while ((dir = readdir(d)) != NULL)
+        {
+            if (strcmp(dir->d_name, find) == 0)
+            {
+                found = 0;
+            };
+        }
+    }
+    else
+    {
+        printf("Directory could not be found");
+    }
+    closedir(d);
+    return found;
+}
+
 // lists all then environment strings
 void displayEnv(char env[][BUFSIZE])
 {
@@ -159,7 +194,7 @@ void displayEnv(char env[][BUFSIZE])
 }
 
 // pauses the shell
-void pause()
+void shellPause()
 {
     // create a loop for the shell to get stuck in until enter pressed
     char key;
