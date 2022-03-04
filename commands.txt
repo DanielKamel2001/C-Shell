@@ -1,0 +1,12 @@
+clr
+echo hello world from a file
+echo ^^^ This was an echo message
+echo before that the screen was cleared
+echo from the dirctory we are in, the contents listed below
+dir
+echo the environment variable
+environ
+echo the manuel
+help
+echo press enter to quit
+pause
