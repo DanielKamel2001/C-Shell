@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 #include <dirent.h> // ONLY WORKS ON POSIX SYS, use https://github.com/tronkko/dirent for Windows
 #include "Utility.h"
 
@@ -20,6 +21,10 @@ int tokenize(char *input, char *tokens[BUFSIZE])
 
     // Variable used for error checking
     ret = fgets(input, 512, stdin);
+
+    // removes any new line characters for cleanliness
+    input[strcspn(input, "\n")] = 0;
+
     // Checks for errors while reading std input
     if (ret == NULL)
     {
@@ -85,9 +90,19 @@ void clr()
 }
 
 // echo message back with a newline at the end
-void echo(char *msg)
+void echo(char *msg[], int count)
 {
-    printf("%s\n", msg);
+    if (count <= 1)
+    {
+        printf("please pass what you would like to echo!\n");
+        return;
+    }
+    for (int i = 1; i < count; i++)
+    {
+        // tokens were delimted by a space so this is fine
+        printf("%s ", msg[i]);
+    }
+    printf("\n");
 }
 
 // displays user manual using "more"
@@ -109,26 +124,30 @@ void help()
 
 void displayDir(char *path)
 {
-  // structure studied from https://pubs.opengroup.org/onlinepubs/7908799/xsh/dirent.h.html
-  struct dirent *dir;
-  DIR *d = NULL;
-  if (strcmp(path, "")== 0){
-    d = opendir(".");
-  }
-  else{
-    d = opendir(path);
-  }
-  
-  if (d) {
-    while ((dir = readdir(d)) != NULL) {
-      printf("%s\n", dir->d_name);
+    // structure studied from https://pubs.opengroup.org/onlinepubs/7908799/xsh/dirent.h.html
+    struct dirent *dir;
+    DIR *d = NULL;
+    if (strcmp(path, "") == 0)
+    {
+        d = opendir(".");
     }
-    
-  }
-  else{
-      printf("Directory could not be found")
-  }
-  closedir(d);
+    else
+    {
+        d = opendir(path);
+    }
+
+    if (d)
+    {
+        while ((dir = readdir(d)) != NULL)
+        {
+            printf("%s\n", dir->d_name);
+        }
+    }
+    else
+    {
+        printf("Directory could not be found");
+    }
+    closedir(d);
 }
 
 // lists all then environment strings
@@ -159,10 +178,10 @@ void quit()
 }
 
 // obtains the current working directory
-void getCurrentDir(char *pwd, BUFSIZE)
+void getCurrentDir(char *pwd, int bufferSize)
 {
     // return a null-terminated string containing an absolute pathname that is the current working directory of thecalling process.
-    getcwd(pwd, BUFSIZE);
+    getcwd(pwd, bufferSize);
 }
 /*  Not really sure how to include this requirement, i think this might be able to include in getCurrentDir?
 The shell environment should contain shell=<pathname>/myshell

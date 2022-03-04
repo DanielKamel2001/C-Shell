@@ -10,10 +10,11 @@
 // Global variables
 char buffer[BUFSIZE] = {0};
 char *tokens[BUFSIZE];
+char command[BUFSIZE];
 
 /**Tokenizer function with a global buffer pointer
  * and a global tokens pointer array
- 
+
 int tokenize(char *input, char *tokens[BUFSIZE])
 {
 
@@ -69,25 +70,36 @@ int main(int argc, char *argv[])
 
         // Number of words in the token pointer array
         int S_count = tokenize(buffer, tokens);
+        // for testing the tokenizing/input
+        /*
+        // printf("buffer: %s\n", buffer);
+        // // Displaying contents of token pointer array
+        // for (int i = 0; i < S_count; i++)
+        // {
+        //     printf("Token %d = %s\n", i, tokens[i]);
+        // }
+        */
 
-        // Displaying contents of token pointer array
-        for (int i = 0; i < S_count; i++)
-        {
-            printf("Token %d = %s\n", i, tokens[i]);
-        }
+        strcpy(command, tokens[0]);
+        // removes any newline characters from the first token, so single command lines have no trailing newline
+        command[strcspn(command, "\n")] = 0;
 
-        printf("deciding what %s means\n", tokens[0]);
+        // printf("deciding what %s means\n", tokens[0]);
 
-        if (strcmp(tokens[0], "echo") == 0)
+        if (strcmp(command, "echo") == 0)
         {
             printf("echoing: ");
 
-            echo(buffer);
+            echo(tokens, S_count); // MIGHT MAKE MORE SENSE TO KEEP THIS LOCAL BUT WHO KNOWS
         }
-        else if (strcmp(tokens[0], "clear") == 0)
+        else if (strcmp(command, "clear") == 0)
         {
-            printf("clearing:");
+            // printf("clearing:");
             clr();
+        }
+        else
+        {
+            printf("%s is not a command, type help to see list of commands\n", command);
         }
 
     } while (1);

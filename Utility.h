@@ -2,10 +2,12 @@
 #ifndef UTILITY_H_
 #define UTILITY_H_
 
-// #define BUFF_LENGTH ; // need to add whatever adris uses for the buffer here
 #define BUFSIZE 512
+// #define BUFF_LENGTH ; // need to add whatever adris uses for the buffer here
 // Function headers
 
+extern char buffer[];
+extern char *tokens[];
 // responsible for tokenizing string input to understand it
 extern int tokenize(char *input, char *tokens[BUFSIZE]);
 
@@ -23,7 +25,7 @@ clrscr(); // from my understanding this is a c console call that clears screen
 // alternatively: system("clear");
 
 // echo message back with a newline at the end
-extern void echo(char *msg);
+extern void echo(char *msg[], int count);
 
 // displays user manual using "more"
 extern void help();
