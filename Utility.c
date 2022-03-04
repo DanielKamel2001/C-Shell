@@ -62,15 +62,17 @@ void changeDir(char *pwd, char *newDirPath)
     the current directory. If the directory does not exist an appropriate
     error should be reported. This command should also change the PWD
     environment variable. */
-    int changeStat = chdir(newDirPath);
+
+    int changeStat = chdir(newDirPath); // returns 0 on success, -1 on error
 
     // verify that they actually passed a new path to change to
     if (strcmp(newDirPath, "") != 0)
     {
 
+        // if the attempt at changing the directory is success
         if (changeStat == 0)
         {
-            getCurrentDir(pwd, BUFSIZE);
+            getCurrentDir(pwd, BUFSIZE); // obtains the current working directory
         }
         else
         {
