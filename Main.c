@@ -136,6 +136,11 @@ int main(int argc, char *argv[])
             // printf("clearing:");
             displayDir(currentDirectory);
         }
+        else if (strcmp(command, "env") == 0)
+        {
+            // printf("clearing:");
+            displayEnv(environmentVariables);
+        }
         else if (strcmp(command, "echo") == 0)
         {
             echo(tokens, S_count); // MIGHT MAKE MORE SENSE TO KEEP THIS LOCAL BUT WHO KNOWS
