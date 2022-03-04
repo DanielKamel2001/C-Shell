@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
         printf("Wellcome to the Shell again\n");
         if (commandSource == NULL)
         {
-            printf("Error opening batch file...\n");
+            printf("Error opening file...\n");
             return EXIT_FAILURE;
         }
     }
@@ -174,37 +174,39 @@ int main(int argc, char *argv[])
             else
             {
                 printf("That IS a recognized command or program\n");
+                filePath[0] = '\0';
+                strcat(filePath, environmentVariables[0]);
+                strcat(filePath, "/");
+                strcat(filePath, command);
+                printf("opening program at file path:%s\n", filePath);
+
                 pid_t childPID;
                 childPID = fork();
                 // fork successful
                 // printf("%d\n", childPID);
                 if (childPID >= 0)
                 {
+                    if (childPID != 0 && strcmp(tokens[S_count - 1], "&") != 0)
+                    {
+                        printf("Waiting For Program to Finish\n");
+                        waitpid(childPID, 0, 0);
+                    }
                     // child process
                     if (childPID == 0)
                     {
                         // printf("child about to execl\n");
-                        strcat(filePath, environmentVariables[0]);
-                        strcat(filePath, "/");
-                        strcat(filePath, command);
-                        printf("opening program at file path:%s\n", filePath);
                         execl(filePath, tokens[1]);
                         if (errno != 0)
                         {
                             printf("error: %s\n", strerror(errno));
                         }
                     }
-                    else
-                    {
-                        // printf("Parent Waiting\n");
-                        waitpid(childPID, 0, 0);
-                    }
                 }
                 else
                 {
                     puts("Fork failed");
-                }
-            }
+                };
+            };
         };
 
     } while (1);
