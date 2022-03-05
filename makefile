@@ -1,2 +1,2 @@
-shell: main.c utility.c
-	gcc -o shell main.c utility.c -I.
+myshell: myshell.c utility.c
+	gcc -o myshell myshell.c utility.c -I.
